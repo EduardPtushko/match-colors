@@ -1,30 +1,33 @@
 import { useState } from 'react'
+import { Card } from '../game/MemoryGame'
 import styles from './Card.module.css'
 
 type CardProps = {
 	onClick: () => void
-	text: string
+	card: Card<String>
 }
 
-const Card: React.FC<CardProps> = ({ onClick, text }) => {
-	const [isFaceUp, setIsFaceUp] = useState(true)
+const CardView: React.FC<CardProps> = ({ onClick, card }) => {
+	// const [isFaceUp, setIsFaceUp] = useState(true)
 
-	const toggleFaceUp = () => {
-		setIsFaceUp(!isFaceUp)
-	}
+	// const toggleFaceUp = () => {
+	// 	setIsFaceUp(!isFaceUp)
+	// }
+
+	const { isFaceUp, content } = card
 
 	return (
 		<>
 			{isFaceUp ? (
-				<div onClick={toggleFaceUp} className={styles.card}>
-					{text}
+				<div onClick={onClick} className={styles.card}>
+					{content}
 				</div>
 			) : (
 				<div
 					style={{
 						backgroundColor: 'red',
 					}}
-					onClick={toggleFaceUp}
+					onClick={onClick}
 					className={styles.card}
 				></div>
 			)}
@@ -32,4 +35,4 @@ const Card: React.FC<CardProps> = ({ onClick, text }) => {
 	)
 }
 
-export default Card
+export default CardView

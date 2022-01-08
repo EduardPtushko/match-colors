@@ -1,6 +1,8 @@
 import { atom, selector, useRecoilValue } from 'recoil'
-import Card from '../../Card'
+// import Card from '../../Card'
 import styles from './MainPage.module.css'
+import { EmojiMemoryGame } from '../../game/EmojiMemoryGame'
+import CardView from '../../Card'
 const emojis = [
 	'🛫',
 	'🚗',
@@ -45,12 +47,14 @@ const emojiCountSelector = selector({
 })
 
 const MainPage: React.FC = () => {
+	const viewModel = new EmojiMemoryGame()
+	console.log(viewModel.cards)
 	const emojiCount = useRecoilValue(emojiCountState)
 
 	return (
 		<main className={styles.container}>
-			{emojis.slice(0, emojiCount).map((emoji) => (
-				<Card key={emoji} text={emoji} onClick={() => console.log('clicked')} />
+			{viewModel.cards.map((card) => (
+				<CardView key={card.id} card={card} onClick={() => viewModel.choose(card)} />
 			))}
 		</main>
 	)

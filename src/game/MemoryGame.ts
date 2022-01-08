@@ -23,16 +23,37 @@ export class MemoryGame<CardContent> {
 		}
 	}
 
-	private indexOfTheOneAndOnlyFaceUpCard?: number
+	private indexOfTheOneAndOnlyFaceUpCard: number | null = null
 
 	choose(card: Card<CardContent>) {
-		const chosenIndex = this.cards.findIndex((idx) => idx.id === card.id)
+		const chosenIndex = this.cards.findIndex((aCard) => aCard.id === card.id)
+
 		if (
 			chosenIndex !== -1 &&
 			!this.cards[chosenIndex].isFaceUp &&
 			!this.cards[chosenIndex].isMatched
 		) {
-			console.log('chosenindex', chosenIndex)
+			if (this.indexOfTheOneAndOnlyFaceUpCard !== null) {
+				if (
+					this.cards[this.indexOfTheOneAndOnlyFaceUpCard].content ===
+					this.cards[chosenIndex].content
+				) {
+					this.cards[chosenIndex].isMatched = true
+					this.cards[this.indexOfTheOneAndOnlyFaceUpCard].isMatched = true
+				}
+
+				this.indexOfTheOneAndOnlyFaceUpCard = null
+			} else {
+				this.cards.forEach((_, index) => {
+					this.cards[index].isFaceUp = false
+				})
+				this.indexOfTheOneAndOnlyFaceUpCard = chosenIndex
+			}
+
+			this.cards[chosenIndex].isFaceUp =
+				this.cards[chosenIndex].isFaceUp === true ? false : true
+
+			console.log(this.indexOfTheOneAndOnlyFaceUpCard)
 		}
 	}
 }
