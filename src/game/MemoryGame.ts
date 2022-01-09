@@ -1,3 +1,5 @@
+import { makeAutoObservable, makeObservable, observable } from 'mobx'
+
 export class Card<CardContent> {
 	isFaceUp = false
 	isMatched = false
@@ -52,8 +54,6 @@ export class MemoryGame<CardContent> {
 
 			this.cards[chosenIndex].isFaceUp =
 				this.cards[chosenIndex].isFaceUp === true ? false : true
-
-			console.log(this.indexOfTheOneAndOnlyFaceUpCard)
 		}
 	}
 }

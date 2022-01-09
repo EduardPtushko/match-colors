@@ -1,6 +1,10 @@
+import { makeAutoObservable, makeObservable, observable } from 'mobx'
 import { Card, MemoryGame } from './MemoryGame'
 
 export class EmojiMemoryGame {
+	constructor() {
+		makeAutoObservable(this)
+	}
 	static emojis = [
 		'🛫',
 		'🚗',

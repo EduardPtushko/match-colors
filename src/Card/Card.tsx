@@ -1,20 +1,24 @@
 import { useState } from 'react'
+import { observer } from 'mobx-react-lite'
 import { Card } from '../game/MemoryGame'
 import styles from './Card.module.css'
+import { isObservable } from 'mobx'
 
 type CardProps = {
-	onClick: () => void
+	onClick: (card: any) => void
 	card: Card<String>
+	isFaceUp: boolean
+	content: string
 }
 
-const CardView: React.FC<CardProps> = ({ onClick, card }) => {
+const CardView: React.FC<CardProps> = observer(({ onClick, card, isFaceUp, content }) => {
 	// const [isFaceUp, setIsFaceUp] = useState(true)
 
 	// const toggleFaceUp = () => {
 	// 	setIsFaceUp(!isFaceUp)
 	// }
 
-	const { isFaceUp, content } = card
+	// const { isFaceUp, content } = card
 
 	return (
 		<>
@@ -27,12 +31,12 @@ const CardView: React.FC<CardProps> = ({ onClick, card }) => {
 					style={{
 						backgroundColor: 'red',
 					}}
-					onClick={onClick}
+					onClick={() => onClick(card)}
 					className={styles.card}
 				></div>
 			)}
 		</>
 	)
-}
+})
 
 export default CardView
