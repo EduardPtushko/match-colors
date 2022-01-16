@@ -1,4 +1,5 @@
-import { makeAutoObservable, makeObservable, observable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
+import { shuffle } from '../utils/shuffle'
 
 export class Card<CardContent> {
 	isFaceUp = false
@@ -9,6 +10,7 @@ export class Card<CardContent> {
 	constructor(content: CardContent, id: number) {
 		this.content = content
 		this.id = id
+		makeAutoObservable(this)
 	}
 }
 
@@ -23,6 +25,7 @@ export class MemoryGame<CardContent> {
 			this.cards.push(new Card(content, i * 2))
 			this.cards.push(new Card(content, i * 2 + 1))
 		}
+		shuffle(this.cards)
 	}
 
 	private indexOfTheOneAndOnlyFaceUpCard: number | null = null

@@ -1,41 +1,45 @@
-import { useState } from 'react'
 import { observer } from 'mobx-react-lite'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { Card } from '../game/MemoryGame'
 import styles from './Card.module.css'
-import { isObservable } from 'mobx'
 
 type CardProps = {
 	onClick: (card: any) => void
 	card: Card<String>
-	isFaceUp: boolean
-	content: string
 }
 
-const CardView: React.FC<CardProps> = observer(({ onClick, card, isFaceUp, content }) => {
-	// const [isFaceUp, setIsFaceUp] = useState(true)
+const CardView: React.FC<CardProps> = observer(({ onClick, card }) => {
+	const targetRef = useRef<HTMLDivElement | null>(null)
+	const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
-	// const toggleFaceUp = () => {
-	// 	setIsFaceUp(!isFaceUp)
-	// }
+	const { isFaceUp, isMatched, content } = card
 
-	// const { isFaceUp, content } = card
+	useLayoutEffect(() => {
+		if (targetRef.current) {
+			setDimensions({
+				width: targetRef.current.offsetWidth,
+				height: targetRef.current.offsetHeight,
+			})
+		}
+	}, [])
+
+	const font = (size: { width: number; height: number }) => {
+		return Math.min(size.width, size.height) * 0.8
+	}
 
 	return (
-		<>
-			{isFaceUp ? (
-				<div onClick={onClick} className={styles.card}>
-					{content}
-				</div>
-			) : (
-				<div
-					style={{
-						backgroundColor: 'red',
-					}}
-					onClick={() => onClick(card)}
-					className={styles.card}
-				></div>
-			)}
-		</>
+		<div
+			ref={targetRef}
+			style={{
+				backgroundColor: isFaceUp ? undefined : 'red',
+				opacity: isMatched && !isFaceUp ? 0 : 1,
+				fontSize: font(dimensions),
+			}}
+			onClick={() => onClick(card)}
+			className={styles.card}
+		>
+			{isFaceUp ? content : null}
+		</div>
 	)
 })
 

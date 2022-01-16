@@ -5,28 +5,10 @@ export class EmojiMemoryGame {
 	constructor() {
 		makeAutoObservable(this)
 	}
-	static emojis = [
-		'🛫',
-		'🚗',
-		'🛵',
-		'🚂',
-		'🚕',
-		'🚙',
-		'🚎',
-		'🏎',
-		'🚓',
-		'🚒',
-		'🛴',
-		'🏍',
-		'🚞',
-		'🚄',
-		'🚛',
-		'🚀',
-		'✈️',
-		'⛴',
-		'🛰',
-		'🚔',
-	]
+
+	// prettier-ignore
+	static emojis = 
+		[ '🛫', '🚗', '🛵', '🚂', '🚕', '🚙', '🚎', '🏎', '🚓', '🚒', '🛴', '🏍', '🚞', '🚄', '🚛', '🚀', '✈️', '⛴', '🛰', '🚔',]
 
 	static createMemoryGame(): MemoryGame<string> {
 		const memoryGame = new MemoryGame<string>(
